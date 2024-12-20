@@ -4,6 +4,7 @@ import { Tabs } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
+import Header from "@/components/Header";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -17,11 +18,12 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      screenOptions={{
+      screenOptions={({ route }) => ({
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
+        headerShown: route.name !== "profile",
+        header: () => (route.name !== "profile" ? <Header /> : null),
         tabBarStyle: styles.tabBar,
-      }}
+      })}
     >
       <Tabs.Screen
         name="index"
@@ -34,7 +36,9 @@ export default function TabLayout() {
         name="saved"
         options={{
           title: "Saved",
-          tabBarIcon: ({ color }) => <TabBarIcon name="bookmark" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="bookmark" color={color} />
+          ),
         }}
       />
       <Tabs.Screen

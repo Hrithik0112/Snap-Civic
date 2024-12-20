@@ -1,49 +1,88 @@
 import { useState } from "react";
 import { StyleSheet, TextInput, Pressable } from "react-native";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { Text, View } from "@/components/Themed";
+import { resetAndNavigateTo } from "@/utils/Navigation";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   const handleLogin = () => {
-    // Add your authentication logic here
-    // For demo purposes, we'll just navigate to tabs
-    router.replace("/(tabs)");
+    resetAndNavigateTo("/(tabs)");
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          width: "100%",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 20,
+        }}
+      >
+        <Text style={styles.title}>Login</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <Pressable
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeIcon}
+          >
+            <FontAwesome
+              name={showPassword ? "eye" : "eye-slash"}
+              size={20}
+              color="#666"
+            />
+          </Pressable>
+        </View>
 
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </Pressable>
-
-      <Link href="/(auth)/signup" asChild>
-        <Pressable>
-          <Text style={styles.link}>Don't have an account? Sign up</Text>
+        <Pressable
+          style={[styles.button, !isFormValid && styles.buttonDisabled]}
+          onPress={handleLogin}
+          disabled={!isFormValid}
+        >
+          <Text style={styles.buttonText}>Login</Text>
         </Pressable>
-      </Link>
-    </View>
+
+        <Link href="/(auth)/signup" asChild>
+          <Pressable>
+            <Text style={styles.link}>Don't have an account? Sign up</Text>
+          </Pressable>
+        </Link>
+
+
+          <Pressable onPress={() => alert("Feature coming soon!")}>
+            <Text style={[styles.link, { marginTop: 10 }]}>
+              Forgot Password?
+            </Text>
+          </Pressable>
+
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -52,8 +91,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+
+    backgroundColor: "white",
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -70,7 +111,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    backgroundColor: "#2f95dc",
+    backgroundColor: "#4CAF50",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
@@ -83,6 +124,27 @@ const styles = StyleSheet.create({
   },
   link: {
     marginTop: 15,
-    color: "#2f95dc",
+    color: "#4CAF50",
+  },
+  passwordContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  eyeIcon: {
+    padding: 10,
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
+    opacity: 0.7,
   },
 });

@@ -1,29 +1,55 @@
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/components/Themed';
+import { StyleSheet, ScrollView } from "react-native";
+import { View } from "@/components/Themed";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Card } from "@/components/Card";
+import { feedData } from "@/utils/MockData";
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+    <SafeAreaView style={styles.container} edges={[]}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.insideContainer}>
+          {feedData.map((item) => (
+            <Card
+              key={item.id}
+              userName={item.userName}
+              avatarUrl={item.avatarUrl}
+              postedDate={item.postedDate}
+              imageUrl={item.imageUrl}
+              location={item.location}
+              title={item.title}
+              description={item.description}
+              upvotes={item.upvotes}
+              comments={item.comments}
+              onBookmark={() => console.log("Bookmark:", item.id)}
+              onMenu={() => console.log("Menu:", item.id)}
+              onReadMore={() => console.log("Read more:", item.id)}
+              onUpvote={() => console.log("Upvote:", item.id)}
+              onComment={() => console.log("Comment:", item.id)}
+              onShare={() => console.log("Share:", item.id)}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    backgroundColor: "#f5f5f5", // Light gray background
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  scrollView: {
+    flex: 1,
+
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  insideContainer: {
+    padding: 16,
+    gap: 16, // Adds space between cards
   },
 });
