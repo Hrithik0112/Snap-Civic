@@ -12,6 +12,8 @@ interface CardProps {
   description: string;
   upvotes: number;
   comments: number;
+  isBookmarked?: boolean;
+  isUpvoted?: boolean;
   onBookmark?: () => void;
   onMenu?: () => void;
   onReadMore?: () => void;
@@ -30,6 +32,8 @@ export const Card = ({
   description,
   upvotes,
   comments,
+  isBookmarked,
+  isUpvoted,
   onBookmark,
   onMenu,
   onReadMore,
@@ -53,7 +57,11 @@ export const Card = ({
         </View>
         <View style={styles.headerActions}>
           <TouchableOpacity onPress={onBookmark}>
-            <Ionicons name="bookmark-outline" size={24} color="black" />
+            <Ionicons
+              name={isBookmarked ? "bookmark" : "bookmark-outline"}
+              size={24}
+              color={isBookmarked ? "#4CAF50" : "black"}
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={onMenu} style={styles.menuButton}>
             <Ionicons name="ellipsis-vertical" size={24} color="black" />
@@ -90,7 +98,11 @@ export const Card = ({
       <View style={styles.footer}>
         <View style={styles.footerLeft}>
           <TouchableOpacity style={styles.footerButton} onPress={onUpvote}>
-            <Ionicons name="arrow-up-outline" size={24} color="black" />
+            <Ionicons
+              name={isUpvoted ? "arrow-up" : "arrow-up-outline"}
+              size={24}
+              color={isUpvoted ? "#4CAF50" : "black"}
+            />
             <Text style={styles.footerText}>{upvotes}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.footerButton} onPress={onComment}>

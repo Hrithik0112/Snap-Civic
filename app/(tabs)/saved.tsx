@@ -23,6 +23,7 @@ export default function SavedScreen() {
               title={item.title}
               description={item.description}
               upvotes={item.upvotes}
+              isBookmarked={true}
               comments={item.comments}
               onBookmark={() => console.log("Bookmark:", item.id)}
               onMenu={() => console.log("Menu:", item.id)}
