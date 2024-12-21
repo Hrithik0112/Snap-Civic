@@ -1,0 +1,20 @@
+export type CardProps = {
+  id: string;
+  userName: string;
+  avatarUrl: string;
+  postedDate: string;
+  imageUrl: string;
+  location: string;
+  title: string;
+  description: string;
+  upvotes: number;
+  comments: number;
+  isBookmarked?: boolean;
+  isUpvoted?: boolean;
+  onBookmark?: () => void;
+  onMenu?: () => void;
+  onReadMore?: () => void;
+  onUpvote?: () => void;
+  onComment?: () => void;
+  onShare?: () => void;
+};

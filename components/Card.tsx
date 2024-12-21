@@ -2,7 +2,7 @@ import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 
-interface CardProps {
+type CardProps = {
   userName: string;
   avatarUrl: string;
   postedDate: string;

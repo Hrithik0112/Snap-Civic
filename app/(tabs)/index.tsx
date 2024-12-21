@@ -1,39 +1,55 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { View } from "@/components/Themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "@/components/Card";
 import { feedData } from "@/utils/MockData";
+import { useState } from "react";
+import { CardProps } from "@/utils/type";
 
 export default function TabOneScreen() {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Add your refresh logic here
+    // For example, fetch new data
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
+  const renderItem = ({ item }: { item: CardProps }) => (
+    <Card
+      key={item.id}
+      userName={item.userName}
+      avatarUrl={item.avatarUrl}
+      postedDate={item.postedDate}
+      imageUrl={item.imageUrl}
+      location={item.location}
+      title={item.title}
+      description={item.description}
+      upvotes={item.upvotes}
+      comments={item.comments}
+      onBookmark={() => console.log("Bookmark:", item.id)}
+      onMenu={() => console.log("Menu:", item.id)}
+      onReadMore={() => console.log("Read more:", item.id)}
+      onUpvote={() => console.log("Upvote:", item.id)}
+      onComment={() => console.log("Comment:", item.id)}
+      onShare={() => console.log("Share:", item.id)}
+    />
+  );
+
   return (
     <SafeAreaView style={styles.container} edges={[]}>
-      <ScrollView
-        style={styles.scrollView}
+      <FlatList
+        data={feedData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.insideContainer}
         showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.insideContainer}>
-          {feedData.map((item) => (
-            <Card
-              key={item.id}
-              userName={item.userName}
-              avatarUrl={item.avatarUrl}
-              postedDate={item.postedDate}
-              imageUrl={item.imageUrl}
-              location={item.location}
-              title={item.title}
-              description={item.description}
-              upvotes={item.upvotes}
-              comments={item.comments}
-              onBookmark={() => console.log("Bookmark:", item.id)}
-              onMenu={() => console.log("Menu:", item.id)}
-              onReadMore={() => console.log("Read more:", item.id)}
-              onUpvote={() => console.log("Upvote:", item.id)}
-              onComment={() => console.log("Comment:", item.id)}
-              onShare={() => console.log("Share:", item.id)}
-            />
-          ))}
-        </View>
-      </ScrollView>
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
     </SafeAreaView>
   );
 }
@@ -46,7 +62,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-
   },
   insideContainer: {
     padding: 16,
