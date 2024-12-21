@@ -114,7 +114,10 @@ export default function Header({ userName = "A" }: HeaderProps) {
             <View style={styles.logoContainer}>
               <FontAwesome5 name="leaf" size={20} color="#4CAF50" />
             </View>
-            <Text style={styles.logo}>Snap-Civic</Text>
+            <View style={styles.logoTextContainer}>
+              <Text style={styles.logoSnap}>Snap</Text>
+              <Text style={styles.logoCivic}>Civic</Text>
+            </View>
           </View>
 
           {/* Right side with profile and notification */}
@@ -251,10 +254,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logo: {
+  logoTextContainer: {
+    flexDirection: "row",
+  },
+  logoSnap: {
     fontSize: 20,
     fontWeight: "700",
     color: "#1a1a1a",
+  },
+  logoCivic: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#4CAF50",
   },
   rightContainer: {
     flexDirection: "row",

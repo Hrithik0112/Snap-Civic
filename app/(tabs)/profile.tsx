@@ -131,13 +131,17 @@ export default function ProfileScreen() {
 
         {/* Scrollable Content */}
         <View style={styles.feedContainer}>
-          {(activeTab === "important" ? savedData : trendingData).map(
-            (item) => (
-              <View key={item.id} style={styles.cardWrapper}>
-                <Card {...item} />
-              </View>
-            )
-          )}
+          {activeTab === "important"
+            ? savedData.map((item) => (
+                <View key={item.id} style={styles.cardWrapper}>
+                  <Card {...item} isBookmarked={true} />
+                </View>
+              ))
+            : trendingData.map((item) => (
+                <View key={item.id} style={styles.cardWrapper}>
+                  <Card {...item} isUpvoted={true} />
+                </View>
+              ))}
         </View>
       </ScrollView>
     </SafeAreaView>

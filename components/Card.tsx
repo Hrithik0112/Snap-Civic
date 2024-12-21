@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, Animated } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { DiscussionModal } from "@/components/CommentsModal";
@@ -26,6 +26,10 @@ type CardProps = {
   onUpvote?: () => void;
   onComment?: () => void;
   onShare?: () => void;
+  upvoteAnimation?: {
+    translateY: Animated.AnimatedInterpolation<string | number>;
+    opacity: Animated.AnimatedInterpolation<string | number>;
+  };
 };
 
 export const Card = ({
@@ -49,6 +53,7 @@ export const Card = ({
   onUpvote,
   onComment,
   onShare,
+  upvoteAnimation,
 }: CardProps) => {
   const [showComments, setShowComments] = useState(false);
 
@@ -148,7 +153,19 @@ export const Card = ({
               size={24}
               color={isUpvoted ? "#4CAF50" : "black"}
             />
-            <Text style={styles.footerText}>{upvotes}</Text>
+            <View style={styles.upvoteContainer}>
+              <Animated.Text
+                style={[
+                  styles.upvoteCount,
+                  upvoteAnimation && {
+                    transform: [{ translateY: upvoteAnimation.translateY }],
+                    opacity: upvoteAnimation.opacity,
+                  },
+                ]}
+              >
+                {upvotes}
+              </Animated.Text>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.footerButton}
@@ -321,5 +338,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     textTransform: "capitalize",
+  },
+  upvoteContainer: {
+    marginLeft: 4,
+  },
+  upvoteCount: {
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
