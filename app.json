@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "SnapCivic",
+    "slug": "snap-civic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/appIcon.png",
+    "scheme": "snapcivic",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
