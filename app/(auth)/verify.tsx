@@ -1,76 +1,157 @@
-import { useState } from 'react';
-import { StyleSheet, TextInput, Pressable } from 'react-native';
-import { router } from 'expo-router';
-import { Text, View } from '@/components/Themed';
+import { useState } from "react";
+import { StyleSheet, TextInput, Pressable } from "react-native";
+import { router } from "expo-router";
+import { Text, View } from "@/components/Themed";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function VerifyScreen() {
-  const [verificationCode, setVerificationCode] = useState('');
+  const [verificationCode, setVerificationCode] = useState("");
 
   const handleVerification = () => {
-    // Add your verification logic here
-    // For demo purposes, we'll just navigate to tabs
-    router.replace('/(tabs)');
+    router.replace("/(tabs)");
   };
 
+  const isFormValid = verificationCode.trim() !== "";
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Verify Email</Text>
-      <Text style={styles.description}>
-        Please enter the verification code sent to your email
-      </Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Verification Code"
-        value={verificationCode}
-        onChangeText={setVerificationCode}
-        keyboardType="number-pad"
-      />
-      
-      <Pressable style={styles.button} onPress={handleVerification}>
-        <Text style={styles.buttonText}>Verify</Text>
-      </Pressable>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.contentContainer}>
+        <View style={styles.headerContainer}>
+          <FontAwesome
+            name="envelope"
+            size={50}
+            color="#4CAF50"
+            style={styles.icon}
+          />
+          <Text style={styles.welcomeText}>Verify Email</Text>
+          <Text style={styles.subtitle}>
+            Please enter the verification code sent to your email
+          </Text>
+        </View>
+
+        <View style={styles.formContainer}>
+          <View style={styles.inputWrapper}>
+            <FontAwesome
+              name="key"
+              size={20}
+              color="#666"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Enter verification code"
+              value={verificationCode}
+              onChangeText={setVerificationCode}
+              keyboardType="number-pad"
+              placeholderTextColor="#999"
+              maxLength={6}
+            />
+          </View>
+
+          <Pressable
+            style={[styles.button, !isFormValid && styles.buttonDisabled]}
+            onPress={handleVerification}
+            disabled={!isFormValid}
+          >
+            <Text style={styles.buttonText}>Verify</Text>
+          </Pressable>
+
+          <View style={styles.linksContainer}>
+            <Pressable onPress={() => alert("Code resent!")}>
+              <Text style={styles.link}>Didn't receive code? Resend</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    backgroundColor: "#ffffff",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 24,
+    justifyContent: "center",
   },
-  description: {
-    textAlign: 'center',
+  headerContainer: {
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  icon: {
     marginBottom: 20,
-    color: '#666',
+  },
+  welcomeText: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#1a1a1a",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#666666",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  formContainer: {
+    width: "100%",
+    gap: 16,
+  },
+  inputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    height: 56,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  inputIcon: {
+    marginRight: 12,
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
   },
   button: {
-    width: '100%',
-    backgroundColor: '#2f95dc',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
+    backgroundColor: "#4CAF50",
+    height: 56,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    shadowColor: "#4CAF50",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
+    shadowColor: "#999",
+  },
+  linksContainer: {
+    alignItems: "center",
+    marginTop: 16,
+    paddingHorizontal: 4,
+  },
+  link: {
+    color: "#4CAF50",
+    fontSize: 15,
+    fontWeight: "500",
   },
 });

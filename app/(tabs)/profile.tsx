@@ -7,174 +7,134 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Card } from "@/components/Card";
 import { savedData, trendingData } from "@/utils/MockData";
 
-// Add this dummy data
+// Update user data with more fields
 const USER_DATA = {
   name: "John Doe",
   email: "john.doe@example.com",
   phone: "+1 234 567 8900",
   location: "New York, USA",
-};
-
-// Add TabSection component
-const TabSection = () => {
-  const [activeTab, setActiveTab] = useState("important");
-
-  return (
-    <View style={styles.tabSection}>
-      <View style={styles.tabContainer}>
-        <Pressable
-          style={[
-            styles.tabButton,
-            activeTab === "important" && styles.activeTab,
-          ]}
-          onPress={() => setActiveTab("important")}
-        >
-          <FontAwesome
-            name="star"
-            size={20}
-            color={activeTab === "important" ? "#4CAF50" : "#666"}
-          />
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === "important" && styles.activeTabText,
-            ]}
-          >
-            Important
-          </Text>
-        </Pressable>
-
-        <Pressable
-          style={[
-            styles.tabButton,
-            activeTab === "activity" && styles.activeTab,
-          ]}
-          onPress={() => setActiveTab("activity")}
-        >
-          <FontAwesome
-            name="bell"
-            size={20}
-            color={activeTab === "activity" ? "#4CAF50" : "#666"}
-          />
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === "activity" && styles.activeTabText,
-            ]}
-          >
-            Activity
-          </Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.feedContainer}>
-        {activeTab === "important" ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.feedContent}
-          >
-            {savedData.map((item) => (
-              <View key={item.id} style={styles.cardWrapper}>
-                <Card
-                  userName={item.userName}
-                  avatarUrl={item.avatarUrl}
-                  postedDate={item.postedDate}
-                  imageUrl={item.imageUrl}
-                  location={item.location}
-                  title={item.title}
-                  description={item.description}
-                  upvotes={item.upvotes}
-                  comments={item.comments}
-                  isBookmarked={true}
-                  onBookmark={() => {}}
-                  onMenu={() => {}}
-                  onReadMore={() => {}}
-                  onUpvote={() => {}}
-                  onComment={() => {}}
-                  onShare={() => {}}
-                />
-              </View>
-            ))}
-          </ScrollView>
-        ) : (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.feedContent}
-          >
-            {trendingData.map((item) => (
-              <View key={item.id} style={styles.cardWrapper}>
-                <Card
-                  userName={item.userName}
-                  avatarUrl={item.avatarUrl}
-                  postedDate={item.postedDate}
-                  imageUrl={item.imageUrl}
-                  location={item.location}
-                  title={item.title}
-                  description={item.description}
-                  upvotes={item.upvotes}
-                  isUpvoted={true}
-                  comments={item.comments}
-                  onBookmark={() => {}}
-                  onMenu={() => {}}
-                  onReadMore={() => {}}
-                  onUpvote={() => {}}
-                  onComment={() => {}}
-                  onShare={() => {}}
-                />
-              </View>
-            ))}
-          </ScrollView>
-        )}
-      </View>
-    </View>
-  );
+  joinDate: "Member since Jan 2024",
+  reportsCount: 23,
+  upvotesReceived: 156,
+  impactScore: 89,
 };
 
 export default function ProfileScreen() {
+  const [activeTab, setActiveTab] = useState("important");
   const firstLetter = USER_DATA.name.charAt(0);
 
+  const handleLogout = () => {
+    resetAndNavigateTo("/(auth)/login");
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
-      <View style={styles.insideContainer}>
-        {/* Profile Row */}
-        <View style={styles.profileRow}>
-          <View style={styles.profileLeft}>
-            <View style={styles.avatarContainer}>
-              <Text style={styles.avatarText}>{firstLetter}</Text>
-            </View>
-            <Text style={styles.title}>{USER_DATA.name}</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.insideContainer} stickyHeaderIndices={[3]}>
+        {/* Header with Logout */}
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerTitle}>Profile</Text>
+          <Pressable
+            onPress={handleLogout}
+            style={({ pressed }) => [
+              styles.logoutButton,
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <FontAwesome name="sign-out" size={18} color="#FF4444" />
+            <Text style={styles.logoutText}>Logout</Text>
+          </Pressable>
+        </View>
+
+        {/* Profile Info Card */}
+        <View style={styles.profileCard}>
+          <View style={styles.avatarContainer}>
+            <Text style={styles.avatarText}>{firstLetter}</Text>
           </View>
 
-          <View style={styles.profileRight}>
-            <View style={styles.infoContainer}>
-              <View style={styles.infoRow}>
-                <Text style={styles.label}>Email:</Text>
-                <Text style={styles.value}>{USER_DATA.email}</Text>
-              </View>
-              <View style={styles.infoRow}>
-                <Text style={styles.label}>Phone:</Text>
-                <Text style={styles.value}>{USER_DATA.phone}</Text>
-              </View>
-              <View style={styles.infoRow}>
-                <Text style={styles.label}>Location:</Text>
-                <Text style={styles.value}>{USER_DATA.location}</Text>
-              </View>
+          <View style={styles.userInfo}>
+            <Text style={styles.userName}>{USER_DATA.name}</Text>
+            <Text style={styles.userJoinDate}>{USER_DATA.joinDate}</Text>
+          </View>
+
+          <View style={styles.statsGrid}>
+            <View style={styles.statBox}>
+              <Text style={styles.statNumber}>{USER_DATA.reportsCount}</Text>
+              <Text style={styles.statLabel}>Reports</Text>
             </View>
-            
+            <View style={styles.statBox}>
+              <Text style={styles.statNumber}>{USER_DATA.upvotesReceived}</Text>
+              <Text style={styles.statLabel}>Upvotes</Text>
+            </View>
+            <View style={styles.statBox}>
+              <Text style={styles.statNumber}>{USER_DATA.impactScore}</Text>
+              <Text style={styles.statLabel}>Impact</Text>
+            </View>
           </View>
         </View>
-        <Pressable
-              onPress={() => {
-                resetAndNavigateTo("/(auth)/login");
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Logout</Text>
-            </Pressable>
 
-        {/* Tab Section */}
-        <TabSection />
-      </View>
+        {/* Contact Info Card */}
+        <View style={styles.contactCard}>
+          <Text style={styles.sectionTitle}>Contact Information</Text>
+          {[
+            { icon: "envelope", value: USER_DATA.email },
+            { icon: "phone", value: USER_DATA.phone },
+            { icon: "map-marker", value: USER_DATA.location },
+          ].map((item, index) => (
+            <View key={index} style={styles.infoRow}>
+              <FontAwesome
+                name={item.icon as "envelope" | "phone" | "map-marker"}
+                size={16}
+                color="#4CAF50"
+              />
+              <Text style={styles.infoText}>{item.value}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Sticky Tabs Section */}
+        <View style={styles.stickyHeader}>
+          <View style={styles.tabContainer}>
+            {[
+              { id: "important", icon: "star", label: "Important" },
+              { id: "activity", icon: "history", label: "Activity" },
+            ].map((tab) => (
+              <Pressable
+                key={tab.id}
+                style={[
+                  styles.tabButton,
+                  activeTab === tab.id && styles.activeTab,
+                ]}
+                onPress={() => setActiveTab(tab.id)}
+              >
+                <FontAwesome
+                  name={tab.icon as "star" | "history"}
+                  size={20}
+                  color={activeTab === tab.id ? "#4CAF50" : "#666"}
+                />
+                <Text
+                  style={[
+                    styles.tabText,
+                    activeTab === tab.id && styles.activeTabText,
+                  ]}
+                >
+                  {tab.label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
+        {/* Scrollable Content */}
+        <View style={styles.feedContainer}>
+          {(activeTab === "important" ? savedData : trendingData).map(
+            (item) => (
+              <View key={item.id} style={styles.cardWrapper}>
+                <Card {...item} />
+              </View>
+            )
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -182,30 +142,103 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
   },
   insideContainer: {
     flex: 1,
-    backgroundColor: "white",
-    padding: 20,
-  },
-  profileRow: {
-    flexDirection: "row",
-    width: "100%",
+    backgroundColor: "#fff",
     paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    paddingHorizontal: 10,
   },
-  profileLeft: {
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingRight: 20,
-    borderRightWidth: 1,
-    borderRightColor: "#eee",
+    paddingVertical: 16,
+    paddingHorizontal: 20,
   },
-  profileRight: {
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1a1a1a",
+  },
+  logoutButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 8,
+    gap: 8,
+    borderRadius: 8,
+    backgroundColor: "#FFF2F2",
+  },
+  logoutText: {
+    color: "#FF4444",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  profileCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  statsGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: "#f0f0f0",
+  },
+  statBox: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 10,
+    alignItems: "center",
+    padding: 12,
+    backgroundColor: "#f8f8f8",
+    borderRadius: 12,
+    marginHorizontal: 4,
+  },
+  contactCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#1a1a1a",
+    marginBottom: 16,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    gap: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+  },
+  avatarSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
   },
   avatarContainer: {
     width: 80,
@@ -214,55 +247,72 @@ const styles = StyleSheet.create({
     backgroundColor: "#4CAF50",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
+    shadowColor: "#4CAF50",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   avatarText: {
     fontSize: 32,
     fontWeight: "bold",
     color: "white",
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
+  userInfo: {
+    marginTop: 8,
+  },
+  userName: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1a1a1a",
+  },
+  userJoinDate: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
   },
   infoContainer: {
-    flex: 1,
+    marginTop: 16,
+    gap: 12,
   },
-  infoRow: {
-    flexDirection: "row",
-    paddingVertical: 6,
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  label: {
-    width: 70,
-    fontWeight: "600",
+  infoText: {
+    fontSize: 14,
     color: "#666",
-    fontSize: 14,
-    marginRight: 8,
   },
-  value: {
-    color: "#333",
-    fontSize: 14,
-  },
-  button: {
-    backgroundColor: "#ffc700",
+  editButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f5f5f5",
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
-    marginTop: 10,
+    marginTop: 16,
+    gap: 8,
   },
-  buttonText: {
-    color: "#333",
+  buttonPressed: {
+    backgroundColor: "#e5e5e5",
+    transform: [{ scale: 0.98 }],
+  },
+  editButtonText: {
+    fontSize: 14,
     fontWeight: "600",
+    color: "#666",
+  },
+  stickyHeader: {
+    backgroundColor: "#fff",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+    zIndex: 1,
   },
   tabContainer: {
     flexDirection: "row",
-    width: "100%",
-    marginVertical: 20,
-    borderRadius: 8,
     backgroundColor: "#f5f5f5",
+    borderRadius: 12,
     padding: 4,
   },
   tabButton: {
@@ -272,10 +322,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 12,
     gap: 8,
-    borderRadius: 6,
+    borderRadius: 8,
   },
   activeTab: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -293,19 +343,21 @@ const styles = StyleSheet.create({
     color: "#4CAF50",
     fontWeight: "500",
   },
-  tabSection: {
-    flex: 1,
-    width: "100%",
-  },
   feedContainer: {
-    flex: 1,
-    marginTop: 10,
-  },
-  feedContent: {
-
-    gap: 16,
+    paddingHorizontal: 20,
+    paddingTop: 16,
   },
   cardWrapper: {
     marginBottom: 16,
+  },
+  statNumber: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#1a1a1a",
+  },
+  statLabel: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 4,
   },
 });
