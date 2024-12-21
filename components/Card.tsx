@@ -1,6 +1,9 @@
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Text, View } from '@/components/Themed';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text, View } from "@/components/Themed";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { DiscussionModal } from "@/components/CommentsModal";
+import { useState } from "react";
+import { getStatusColor, getCategoryIcon } from "@/utils/MockData";
 
 type CardProps = {
   userName: string;
@@ -12,6 +15,9 @@ type CardProps = {
   description: string;
   upvotes: number;
   comments: number;
+  distance: string;
+  status: "REPORTED" | "IN_PROGRESS" | "RESOLVED";
+  category: "ROAD" | "WASTE" | "LIGHTING" | "WATER" | "PARK" | "SAFETY";
   isBookmarked?: boolean;
   isUpvoted?: boolean;
   onBookmark?: () => void;
@@ -20,7 +26,7 @@ type CardProps = {
   onUpvote?: () => void;
   onComment?: () => void;
   onShare?: () => void;
-}
+};
 
 export const Card = ({
   userName,
@@ -32,6 +38,9 @@ export const Card = ({
   description,
   upvotes,
   comments,
+  distance,
+  status,
+  category,
   isBookmarked,
   isUpvoted,
   onBookmark,
@@ -41,15 +50,27 @@ export const Card = ({
   onComment,
   onShare,
 }: CardProps) => {
+  const [showComments, setShowComments] = useState(false);
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "REPORTED":
+        return "Issue Reported";
+      case "IN_PROGRESS":
+        return "In Progress";
+      case "RESOLVED":
+        return "Resolved";
+      default:
+        return status;
+    }
+  };
+
   return (
     <View style={styles.card}>
       {/* Header */}
       <View style={styles.cardHeader}>
         <View style={styles.userInfo}>
-          <Image
-            source={{ uri: avatarUrl }}
-            style={styles.avatar}
-          />
+          <Image source={{ uri: avatarUrl }} style={styles.avatar} />
           <View style={styles.headerText}>
             <Text style={styles.userName}>{userName}</Text>
             <Text style={styles.postedDate}>{postedDate}</Text>
@@ -69,16 +90,40 @@ export const Card = ({
         </View>
       </View>
 
-      {/* Main Image */}
-      <Image
-        source={{ uri: imageUrl }}
-        style={styles.mainImage}
-      />
+      {/* Status and Category */}
+      <View style={styles.metaContainer}>
+        <View
+          style={[
+            styles.statusBadge,
+            { backgroundColor: getStatusColor(status) },
+          ]}
+        >
+          <Text style={styles.statusText}>{getStatusText(status)}</Text>
+        </View>
+        <View style={styles.categoryBadge}>
+          <FontAwesome5
+            name={getCategoryIcon(category)}
+            size={12}
+            color="#666"
+            style={styles.categoryIcon}
+          />
+          <Text style={styles.categoryText}>{category}</Text>
+        </View>
+      </View>
 
-      {/* Location */}
-      <View style={styles.location}>
-        <Ionicons name="location-outline" size={16} color="gray" />
-        <Text style={styles.locationText}>{location}</Text>
+      {/* Main Image */}
+      <Image source={{ uri: imageUrl }} style={styles.mainImage} />
+
+      {/* Location and Distance */}
+      <View style={styles.locationContainer}>
+        <View style={styles.location}>
+          <Ionicons name="location-outline" size={16} color="gray" />
+          <Text style={styles.locationText}>{location}</Text>
+        </View>
+        <View style={styles.distance}>
+          <Ionicons name="navigate-outline" size={14} color="gray" />
+          <Text style={styles.distanceText}>{distance}</Text>
+        </View>
       </View>
 
       {/* Title */}
@@ -105,7 +150,10 @@ export const Card = ({
             />
             <Text style={styles.footerText}>{upvotes}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.footerButton} onPress={onComment}>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => setShowComments(true)}
+          >
             <Ionicons name="chatbubble-outline" size={24} color="black" />
             <Text style={styles.footerText}>{comments}</Text>
           </TouchableOpacity>
@@ -114,31 +162,36 @@ export const Card = ({
           <Ionicons name="share-social-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
+
+      <DiscussionModal
+        isVisible={showComments}
+        onClose={() => setShowComments(false)}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 12,
     padding: 16,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    width: '100%',
+    width: "100%",
   },
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 12,
   },
   userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   avatar: {
     width: 40,
@@ -149,70 +202,124 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   userName: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   postedDate: {
-    color: 'gray',
+    color: "gray",
     fontSize: 12,
   },
   headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   menuButton: {
     marginLeft: 16,
   },
   mainImage: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 8,
     marginBottom: 12,
   },
-  location: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  locationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 8,
   },
+  location: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   locationText: {
-    color: 'gray',
+    color: "gray",
     marginLeft: 4,
+    fontSize: 13,
+  },
+  distance: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  distanceText: {
+    color: "gray",
+    marginLeft: 4,
+    fontSize: 12,
+    fontWeight: "500",
   },
   cardTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   descriptionContainer: {
     marginBottom: 16,
   },
   description: {
-    color: '#666',
+    color: "#666",
     lineHeight: 20,
   },
   readMore: {
-    color: '#007AFF',
+    color: "#007AFF",
     marginTop: 4,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: "#eee",
     paddingTop: 12,
   },
   footerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   footerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 20,
   },
   footerText: {
     marginLeft: 4,
-    color: 'gray',
+    color: "gray",
+  },
+  metaContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 12,
+  },
+  statusBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  categoryBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    gap: 4,
+  },
+  categoryIcon: {
+    marginRight: 4,
+  },
+  categoryText: {
+    color: "#666",
+    fontSize: 12,
+    fontWeight: "500",
+    textTransform: "capitalize",
   },
 });

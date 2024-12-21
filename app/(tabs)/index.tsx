@@ -26,7 +26,10 @@ export default function TabOneScreen() {
       postedDate={item.postedDate}
       imageUrl={item.imageUrl}
       location={item.location}
+      distance={item.distance}
       title={item.title}
+      status={item.status}
+      category={item.category}
       description={item.description}
       upvotes={item.upvotes}
       comments={item.comments}

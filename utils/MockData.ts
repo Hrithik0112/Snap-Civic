@@ -5,237 +5,198 @@ export interface CardData {
   postedDate: string;
   imageUrl: string;
   location: string;
+  distance: string;
   title: string;
   description: string;
   upvotes: number;
   comments: number;
+  status: "REPORTED" | "IN_PROGRESS" | "RESOLVED";
+  category: "ROAD" | "WASTE" | "LIGHTING" | "WATER" | "PARK" | "SAFETY";
 }
 
 export const feedData: CardData[] = [
   {
     id: "1",
-    userName: "Emma Watson",
-    avatarUrl: "https://randomuser.me/api/portraits/women/1.jpg",
+    userName: "Rajesh Kumar",
+    avatarUrl: "https://randomuser.me/api/portraits/men/42.jpg",
     postedDate: "2 hours ago",
     imageUrl: "https://picsum.photos/id/1015/400/200",
-    location: "Paris, France",
-    title: "Beautiful Eiffel Tower at Sunset",
+    location: "Sector 18, Noida",
+    distance: "1.2 km away",
+    title: "Dangerous Pothole Near Market",
     description:
-      "Captured this amazing view of the Eiffel Tower during golden hour. The way the light hits the structure creates a magical atmosphere that's simply breathtaking.",
+      "Large pothole on main road causing accidents. Multiple vehicles damaged. Urgent repair needed before monsoon season.",
     upvotes: 234,
     comments: 45,
+    status: "REPORTED",
+    category: "ROAD",
   },
   {
     id: "2",
-    userName: "James Smith",
-    avatarUrl: "https://randomuser.me/api/portraits/men/2.jpg",
+    userName: "Priya Sharma",
+    avatarUrl: "https://randomuser.me/api/portraits/women/42.jpg",
     postedDate: "5 hours ago",
     imageUrl: "https://picsum.photos/id/1018/400/200",
-    location: "New York, USA",
-    title: "Central Park in Fall",
+    location: "Indirapuram, Ghaziabad",
+    distance: "500 m away",
+    title: "Overflowing Garbage Bins",
     description:
-      "The autumn colors in Central Park are absolutely stunning this time of year. Perfect weather for a morning jog or afternoon picnic.",
+      "Garbage bins haven't been cleared for a week. Creating unhygienic conditions and bad odor. Need immediate attention.",
     upvotes: 189,
     comments: 23,
+    status: "IN_PROGRESS",
+    category: "WASTE",
   },
-  // Add 10 more items with different IDs and content...
   {
     id: "3",
-    userName: "Sofia Rodriguez",
-    avatarUrl: "https://randomuser.me/api/portraits/women/3.jpg",
+    userName: "Amit Patel",
+    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
     postedDate: "1 day ago",
     imageUrl: "https://picsum.photos/id/1019/400/200",
-    location: "Barcelona, Spain",
-    title: "Sagrada Familia Architecture",
+    location: "Vasant Kunj, Delhi",
+    distance: "2.5 km away",
+    title: "Street Lights Not Working",
     description:
-      "Gaudi's masterpiece continues to amaze visitors. The intricate details and symbolic elements make this basilica truly unique.",
-    upvotes: 567,
-    comments: 89,
+      "All street lights in Block C are non-functional for past 3 days. Area becomes very dark and unsafe at night.",
+    upvotes: 156,
+    comments: 34,
+    status: "RESOLVED",
+    category: "LIGHTING",
   },
   {
     id: "4",
-    userName: "Alex Chen",
-    avatarUrl: "https://randomuser.me/api/portraits/men/4.jpg",
+    userName: "Meera Reddy",
+    avatarUrl: "https://randomuser.me/api/portraits/women/32.jpg",
     postedDate: "2 days ago",
     imageUrl: "https://picsum.photos/id/1022/400/200",
-    location: "Tokyo, Japan",
-    title: "Shibuya Crossing at Night",
+    location: "HSR Layout, Bangalore",
+    distance: "800 m away",
+    title: "Water Supply Issues",
     description:
-      "The world's busiest pedestrian crossing looks even more impressive when lit up at night. The energy here is unmatched!",
-    upvotes: 892,
-    comments: 156,
+      "Irregular water supply in our area for the past week. Tankers are charging excessive rates. Need municipal intervention.",
+    upvotes: 312,
+    comments: 56,
+    status: "IN_PROGRESS",
+    category: "WATER",
   },
   {
     id: "5",
-    userName: "Maria Costa",
-    avatarUrl: "https://randomuser.me/api/portraits/women/5.jpg",
+    userName: "Suresh Iyer",
+    avatarUrl: "https://randomuser.me/api/portraits/men/45.jpg",
     postedDate: "3 days ago",
     imageUrl: "https://picsum.photos/id/1024/400/200",
-    location: "Rio de Janeiro, Brazil",
-    title: "Sunset at Copacabana",
+    location: "Thane West, Mumbai",
+    distance: "1.8 km away",
+    title: "Park Maintenance Required",
     description:
-      "Nothing beats a Brazilian sunset at Copacabana beach. The mix of mountains, ocean, and urban landscape creates a perfect scene.",
-    upvotes: 445,
-    comments: 67,
-  },
-  {
-    id: "6",
-    userName: "John Doe",
-    avatarUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    postedDate: "2 hours ago",
-    imageUrl: "https://picsum.photos/id/1029/400/200",
-    location: "New York, USA",
-    title: "Amazing Place to Visit",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    upvotes: 123,
-    comments: 45,
-  },
-  {
-    id: "7",
-    userName: "John Doe",
-    avatarUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    postedDate: "2 hours ago",
-    imageUrl: "https://picsum.photos/id/1028/400/200",
-    location: "New York, USA",
-    title: "Amazing Place to Visit",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    upvotes: 123,
-    comments: 45,
-  },
-  //add 3 more unique items
-  {
-    id: "8",
-    userName: "John Doe",
-    avatarUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    postedDate: "2 hours ago",
-    imageUrl: "https://picsum.photos/id/1027/400/200",
-    location: "New York, USA",
-    title: "Amazing Place to Visit",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    upvotes: 123,
-    comments: 45,
-  },
-  {
-    id: "9",
-    userName: "Johny Doe",
-    avatarUrl: "https://randomuser.me/api/portraits/men/2.jpg",
-    postedDate: "2 hours ago",
-    imageUrl: "https://picsum.photos/id/1026/400/200",
-    location: "New York, USA",
-    title: "Amazing Place to Visit",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    upvotes: 123,
-    comments: 45,
-  },
-  {
-    id: "10",
-    userName: "Hannah Smith",
-    avatarUrl: "https://randomuser.me/api/portraits/women/3.jpg",
-    postedDate: "2 hours ago",
-    imageUrl: "https://picsum.photos/id/1025/400/200",
-    location: "New York, USA",
-    title: "Amazing Place to Visit",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    upvotes: 123,
-    comments: 45,
+      "Children's play equipment is damaged and dangerous. Several swings are broken. Regular maintenance needed.",
+    upvotes: 145,
+    comments: 28,
+    status: "REPORTED",
+    category: "PARK",
   },
 ];
 
 export const savedData: CardData[] = [
   {
     id: "s1",
-    userName: "David Miller",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+    userName: "Anita Desai",
+    avatarUrl: "https://randomuser.me/api/portraits/women/55.jpg",
     postedDate: "1 week ago",
     imageUrl: "https://picsum.photos/id/1036/400/200",
-    location: "Santorini, Greece",
-    title: "Magical Sunset in Santorini",
+    location: "Koramangala, Bangalore",
+    distance: "3.2 km away",
+    title: "Broken Traffic Signal",
     description:
-      "The white buildings against the deep blue sea create a perfect contrast. Santorini's sunsets are truly one of a kind.",
-    upvotes: 1234,
-    comments: 89,
+      "Traffic signal at main junction not working. Causing chaos during peak hours. Traffic police requested.",
+    upvotes: 423,
+    comments: 67,
+    status: "RESOLVED",
+    category: "SAFETY",
   },
   {
     id: "s2",
-    userName: "Lisa Chen",
-    avatarUrl: "https://randomuser.me/api/portraits/women/44.jpg",
+    userName: "Vikram Singh",
+    avatarUrl: "https://randomuser.me/api/portraits/men/55.jpg",
     postedDate: "5 days ago",
     imageUrl: "https://picsum.photos/id/1040/400/200",
-    location: "Kyoto, Japan",
-    title: "Ancient Temple Gardens",
+    location: "Civil Lines, Delhi",
+    distance: "1.5 km away",
+    title: "Sewage Overflow",
     description:
-      "Walking through these serene gardens feels like stepping back in time. The careful arrangement of every stone and plant is truly remarkable.",
-    upvotes: 892,
-    comments: 67,
-  },
-  {
-    id: "s3",
-    userName: "Marco Rossi",
-    avatarUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-    postedDate: "3 days ago",
-    imageUrl: "https://picsum.photos/id/1047/400/200",
-    location: "Venice, Italy",
-    title: "Morning in Venice",
-    description:
-      "Early morning gondola ride through the quiet canals. The city has a different charm before the tourists wake up.",
-    upvotes: 756,
+      "Sewage overflowing onto main road. Creating health hazards. Immediate action required.",
+    upvotes: 267,
     comments: 45,
+    status: "IN_PROGRESS",
+    category: "WASTE",
   },
-  // Add more saved items...
 ];
 
 export const trendingData: CardData[] = [
   {
     id: "t1",
-    userName: "Sarah Johnson",
-    avatarUrl: "https://randomuser.me/api/portraits/women/67.jpg",
+    userName: "Deepak Verma",
+    avatarUrl: "https://randomuser.me/api/portraits/men/62.jpg",
     postedDate: "6 hours ago",
     imageUrl: "https://picsum.photos/id/1051/400/200",
-    location: "Machu Picchu, Peru",
-    title: "Sunrise at Machu Picchu",
+    location: "Aundh, Pune",
+    distance: "1.5 km away",
+    title: "Major Road Cave-in",
     description:
-      "After a challenging hike, witnessing the first rays of sun hitting these ancient ruins was absolutely worth it. A bucket list moment!",
-    upvotes: 2445,
-    comments: 167,
+      "Large section of road caved in after heavy rains. Area needs to be cordoned off and repaired urgently.",
+    upvotes: 645,
+    comments: 89,
+    status: "IN_PROGRESS",
+    category: "ROAD",
   },
   {
     id: "t2",
-    userName: "Michael Zhang",
-    avatarUrl: "https://randomuser.me/api/portraits/men/55.jpg",
+    userName: "Lakshmi Krishnan",
+    avatarUrl: "https://randomuser.me/api/portraits/women/62.jpg",
     postedDate: "12 hours ago",
     imageUrl: "https://picsum.photos/id/1052/400/200",
-    location: "Northern Iceland",
-    title: "Dancing Northern Lights",
+    location: "T Nagar, Chennai",
+    distance: "2.2 km away",
+    title: "Damaged Power Lines",
     description:
-      "Finally caught the aurora borealis in all its glory. The entire sky was dancing with green and purple lights.",
-    upvotes: 3892,
-    comments: 234,
+      "Storm has damaged power lines. Several cables hanging dangerously low. Need immediate attention.",
+    upvotes: 534,
+    comments: 76,
+    status: "REPORTED",
+    category: "SAFETY",
   },
-  {
-    id: "t3",
-    userName: "Isabella Silva",
-    avatarUrl: "https://randomuser.me/api/portraits/women/89.jpg",
-    postedDate: "1 day ago",
-    imageUrl: "https://picsum.photos/id/1053/400/200",
-    location: "Amazon Rainforest, Brazil",
-    title: "Heart of the Amazon",
-    description:
-      "Deep in the rainforest, where nature rules supreme. The biodiversity here is simply incredible.",
-    upvotes: 1567,
-    comments: 145,
-  },
-  {
-    id: "t4",
-    userName: "Ahmed Hassan",
-    avatarUrl: "https://randomuser.me/api/portraits/men/77.jpg",
-    postedDate: "2 days ago",
-    imageUrl: "https://picsum.photos/id/1054/400/200",
-    location: "Petra, Jordan",
-    title: "The Ancient City of Petra",
-    description:
-      "Walking through the narrow canyon to see the Treasury appear is a moment I'll never forget. The scale is breathtaking.",
-    upvotes: 4231,
-    comments: 289,
-  },
-  // Add more trending items...
 ];
+
+// Helper function to get status color
+export const getStatusColor = (status: string) => {
+  switch (status) {
+    case "REPORTED":
+      return "#FF6B6B"; // Red
+    case "IN_PROGRESS":
+      return "#FFB946"; // Orange
+    case "RESOLVED":
+      return "#4CAF50"; // Green
+    default:
+      return "#666666";
+  }
+};
+
+// Helper function to get category icon
+export const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case "ROAD":
+      return "road";
+    case "WASTE":
+      return "trash";
+    case "LIGHTING":
+      return "lightbulb";
+    case "WATER":
+      return "water";
+    case "PARK":
+      return "tree";
+    case "SAFETY":
+      return "shield-alt";
+    default:
+      return "exclamation-circle";
+  }
+};

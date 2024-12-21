@@ -9,6 +9,9 @@ export type CardProps = {
   description: string;
   upvotes: number;
   comments: number;
+  distance: string;
+  status: "REPORTED" | "IN_PROGRESS" | "RESOLVED";
+  category: "ROAD" | "WASTE" | "LIGHTING" | "WATER" | "PARK" | "SAFETY";
   isBookmarked?: boolean;
   isUpvoted?: boolean;
   onBookmark?: () => void;

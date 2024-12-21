@@ -30,6 +30,9 @@ export default function SavedScreen() {
       upvotes={item.upvotes}
       isBookmarked={true}
       comments={item.comments}
+      distance={item.distance}
+      status={item.status}
+      category={item.category}
       onBookmark={() => console.log("Bookmark:", item.id)}
       onMenu={() => console.log("Menu:", item.id)}
       onReadMore={() => console.log("Read more:", item.id)}

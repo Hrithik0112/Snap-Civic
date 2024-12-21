@@ -30,6 +30,9 @@ export default function TrendingScreen() {
       description={item.description}
       upvotes={item.upvotes}
       comments={item.comments}
+      status={item.status}
+      category={item.category}
+      distance={item.distance}
       onBookmark={() => console.log("Bookmark:", item.id)}
       onMenu={() => console.log("Menu:", item.id)}
       onReadMore={() => console.log("Read more:", item.id)}
