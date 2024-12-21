@@ -39,11 +39,7 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.1.0",
     "react-native-svg": "15.8.0",
-    "react-native-web": "~0.19.13",
-    "expo-modules-autolinking": "~2.0.0",
-    "@expo/config-plugins": "~9.0.0",
-    "@expo/prebuild-config": "~8.0.0",
-    "@expo/metro-config": "~0.19.0"
+    "react-native-web": "~0.19.13"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -53,5 +49,15 @@
     "react-test-renderer": "18.3.1",
     "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "reactNativeDirectoryCheck": {
+      "exclude": [
+        "@cloudinary/url-gen",
+        "cloudinary-react-native",
+        "dotenv"
+      ],
+      "listUnknownPackages": false
+    }
+  }
 }

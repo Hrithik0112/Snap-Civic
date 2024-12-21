@@ -4,7 +4,7 @@
     "slug": "snap-civic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/appIcon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "snapcivic",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,7 +20,7 @@
     "android": {
       "package": "com.hrithik001.snapcivic",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/appIcon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -36,11 +36,6 @@
     "extra": {
       "eas": {
         "projectId": "2c3933f2-ef94-405c-9910-54c88049e225"
-      }
-    },
-    "doctor": {
-      "reactNativeDirectoryCheck": {
-        "exclude": ["@cloudinary/url-gen", "cloudinary-react-native", "dotenv"]
       }
     }
   }
