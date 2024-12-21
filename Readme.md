@@ -48,25 +48,56 @@ cd snap-civic
 npm install
 ```
 
-
 3. Start the development server:
 
 ```bash
 npm start
 ```
 
-## 🏗️ Project Structure
+## 📁 Project Structure
 
+```
 snap-civic/
-├── app/ # Main application screens
-│ ├── (tabs)/ # Tab-based navigation screens
-│ └── (auth)/ # Authentication screens
-├── components/ # Reusable UI components
-├── constants/ # App-wide constants
-├── services/ # API and external services
-├── utils/ # Helper functions
-└── assets/ # Images and static resources
+│
+├── app/                    # Main application screens
+│   ├── (tabs)/            # Tab-based navigation screens
+│   │   ├── index.tsx      # Home Feed Screen
+│   │   ├── create.tsx     # Create Report Screen
+│   │   └── profile.tsx    # User Profile Screen
+│   │
+│   ├── (auth)/            # Authentication screens
+│   │   ├── login.tsx      # Login Screen
+│   │   └── register.tsx   # Registration Screen
+│   │
+│   ├── _layout.tsx        # Root Layout
+│   └── +html.tsx          # HTML Template
+│
+├── components/            # Reusable UI components
+│   ├── Card.tsx          # Issue Card Component
+│   ├── Header.tsx        # App Header
+│   ├── SplashScreen.tsx  # Custom Splash Screen
+│   └── Themed.tsx        # Theme Components
+│
+├── constants/            # App-wide constants
+│   ├── Colors.ts        # Color Definitions
+│   └── Layout.ts        # Layout Constants
+│
+├── services/            # API and external services
+│   └── api.ts          # API Service
+│
+├── utils/              # Helper functions
+│   ├── MockData.ts    # Mock Data for Development
+│   ├── MockProfile.ts # Mock User Profile
+│   └── Navigation.ts  # Navigation Utilities
+│
+└── assets/            # Static resources
+    ├── images/       # Image Assets
+    ├── fonts/        # Custom Fonts
+    ├── icon.png      # App Icon
+    └── splash.png    # Splash Screen Image
+```
 
+This structure follows Expo Router's file-based routing convention and organizes code for maximum maintainability and scalability.
 
 ## 🎯 Core Components
 
@@ -85,7 +116,6 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
-
 
 ## 📱 Supported Platforms
 
