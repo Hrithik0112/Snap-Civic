@@ -210,7 +210,8 @@ const styles = StyleSheet.create({
   statBox: {
     flex: 1,
     alignItems: "center",
-    padding: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 12,
     backgroundColor: "#f8f8f8",
     borderRadius: 12,
     marginHorizontal: 4,
