@@ -100,7 +100,7 @@ const NOTIFICATIONS = [
   },
 ];
 
-export default function Header({ userName = "J" }: HeaderProps) {
+export default function Header({ userName = "A" }: HeaderProps) {
   const insets = useSafeAreaInsets();
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = NOTIFICATIONS.filter((n) => !n.isRead).length;

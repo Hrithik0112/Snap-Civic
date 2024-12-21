@@ -58,7 +58,6 @@ export default function CreateIssueScreen() {
       // Launch image picker
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
         allowsMultipleSelection: true,
@@ -167,22 +166,25 @@ export default function CreateIssueScreen() {
   };
 
   const categories = [
-    "Handlebar",
-    "QR code",
-    "Tube",
-    "Brakes",
-    "Throttle",
-    "Light",
-    "Battery",
-    "Kickstand",
-    "Deck",
-    "Wheels",
-    "Display",
-    "Tire",
-    "Bell",
-    "Doesn't start",
-    "Other",
+    "INFRASTRUCTURE", // Roads, bridges, buildings
+    "PUBLIC_SAFETY", // Street lights, emergency services
+    "SANITATION_AND_CLEANLINESS", // Waste management, sewage
+    "ENVIRONMENT", // Parks, pollution, green spaces
+    "PUBLIC_UTILITIES", // Water, electricity, internet
+    "COMMUNITY_SERVICES", // Public transport, healthcare
+    "NOISE_AND_NUISANCE", // Disturbances, illegal activities
+    "ACCESSIBILITY", // Ramps, walkways, public access
+    "CULTURE_AND_HERITAGE", // Monuments, historical sites
+    "OTHER", // Miscellaneous issues
   ];
+
+  // Helper function to format category display text
+  const formatCategoryText = (category: string) => {
+    return category
+      .split("_")
+      .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={[]}>
@@ -295,7 +297,7 @@ export default function CreateIssueScreen() {
                         styles.categoryTextSelected,
                     ]}
                   >
-                    {cat}
+                    {formatCategoryText(cat)}
                   </Text>
                 </Pressable>
               ))}
@@ -304,13 +306,19 @@ export default function CreateIssueScreen() {
 
           {/* Submit Button */}
           <Pressable
-            style={[styles.button]}
+            style={[styles.submitButton, !title && styles.buttonDisabled]}
             onPress={() => {
-              // Handle submission
-              console.log({ images, location, title, description, category });
+              console.log({
+                images,
+                location,
+                title,
+                description,
+                selectedCategories,
+              });
             }}
+            disabled={!title}
           >
-            <Text style={styles.buttonText}>Submit Issue</Text>
+            <Text style={styles.submitButtonText}>Submit Issue</Text>
           </Pressable>
         </View>
 
@@ -512,5 +520,31 @@ const styles = StyleSheet.create({
   },
   categoryTextSelected: {
     color: "white",
+  },
+  submitButton: {
+    backgroundColor: "#4CAF50",
+    height: 56,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 24,
+    width: "100%",
+    shadowColor: "#4CAF50",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  submitButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
+    shadowColor: "#999",
   },
 });

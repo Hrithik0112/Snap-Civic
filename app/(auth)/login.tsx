@@ -4,12 +4,14 @@ import {
   TextInput,
   Pressable,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { Link } from "expo-router";
 import { Text, View } from "@/components/Themed";
 import { resetAndNavigateTo } from "@/utils/Navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
+import { validateLogin } from "@/utils/MockProfile";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -28,7 +30,11 @@ export default function LoginScreen() {
   const handleLogin = () => {
     const isEmailValid = validateEmail(email);
     if (isEmailValid) {
-      resetAndNavigateTo("/(tabs)");
+      if (validateLogin(email, password)) {
+        resetAndNavigateTo("/(tabs)");
+      } else {
+        Alert.alert("Login Failed", "Please use demo@citizen.com / demo1234");
+      }
     }
   };
 

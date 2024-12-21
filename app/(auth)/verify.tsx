@@ -9,7 +9,7 @@ export default function VerifyScreen() {
   const [verificationCode, setVerificationCode] = useState("");
 
   const handleVerification = () => {
-    router.replace("/(tabs)");
+    router.replace("/(auth)/login");
   };
 
   const isFormValid = verificationCode.trim() !== "";

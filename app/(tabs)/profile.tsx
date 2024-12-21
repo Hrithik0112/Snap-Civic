@@ -6,22 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import { Card } from "@/components/Card";
 import { savedData, trendingData } from "@/utils/MockData";
-
-// Update user data with more fields
-const USER_DATA = {
-  name: "John Doe",
-  email: "john.doe@example.com",
-  phone: "+1 234 567 8900",
-  location: "New York, USA",
-  joinDate: "Member since Jan 2024",
-  reportsCount: 23,
-  upvotesReceived: 156,
-  impactScore: 89,
-};
+import { mockUserProfile } from "@/utils/MockProfile";
 
 export default function ProfileScreen() {
   const [activeTab, setActiveTab] = useState("important");
-  const firstLetter = USER_DATA.name.charAt(0);
+  const firstLetter = mockUserProfile.name.charAt(0);
 
   const handleLogout = () => {
     resetAndNavigateTo("/(auth)/login");
@@ -29,7 +18,7 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.insideContainer} stickyHeaderIndices={[3]}>
+      <ScrollView style={styles.insideContainer} stickyHeaderIndices={[4]}>
         {/* Header with Logout */}
         <View style={styles.headerContainer}>
           <Text style={styles.headerTitle}>Profile</Text>
@@ -52,22 +41,30 @@ export default function ProfileScreen() {
           </View>
 
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>{USER_DATA.name}</Text>
-            <Text style={styles.userJoinDate}>{USER_DATA.joinDate}</Text>
+            <Text style={styles.userName}>{mockUserProfile.name}</Text>
+            <Text style={styles.userJoinDate}>
+              Member since {mockUserProfile.joinedDate}
+            </Text>
           </View>
 
           <View style={styles.statsGrid}>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{USER_DATA.reportsCount}</Text>
+              <Text style={styles.statNumber}>
+                {mockUserProfile.issuesReported}
+              </Text>
               <Text style={styles.statLabel}>Reports</Text>
             </View>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{USER_DATA.upvotesReceived}</Text>
-              <Text style={styles.statLabel}>Upvotes</Text>
+              <Text style={styles.statNumber}>
+                {mockUserProfile.issuesResolved}
+              </Text>
+              <Text style={styles.statLabel}>Resolved</Text>
             </View>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{USER_DATA.impactScore}</Text>
-              <Text style={styles.statLabel}>Impact</Text>
+              <Text style={styles.statNumber}>
+                {mockUserProfile.reputation}
+              </Text>
+              <Text style={styles.statLabel}>Reputation</Text>
             </View>
           </View>
         </View>
@@ -76,19 +73,27 @@ export default function ProfileScreen() {
         <View style={styles.contactCard}>
           <Text style={styles.sectionTitle}>Contact Information</Text>
           {[
-            { icon: "envelope", value: USER_DATA.email },
-            { icon: "phone", value: USER_DATA.phone },
-            { icon: "map-marker", value: USER_DATA.location },
+            { icon: "envelope", value: mockUserProfile.email },
+            { icon: "user", value: mockUserProfile.role },
+            { icon: "map-marker", value: mockUserProfile.location },
           ].map((item, index) => (
             <View key={index} style={styles.infoRow}>
-              <FontAwesome
-                name={item.icon as "envelope" | "phone" | "map-marker"}
-                size={16}
-                color="#4CAF50"
-              />
+              <FontAwesome name={item.icon as any} size={16} color="#4CAF50" />
               <Text style={styles.infoText}>{item.value}</Text>
             </View>
           ))}
+        </View>
+
+        {/* Badges Section */}
+        <View style={styles.badgesCard}>
+          <Text style={styles.sectionTitle}>Badges</Text>
+          <View style={styles.badgesContainer}>
+            {mockUserProfile.badges.map((badge, index) => (
+              <View key={index} style={styles.badge}>
+                <Text style={styles.badgeText}>{badge}</Text>
+              </View>
+            ))}
+          </View>
         </View>
 
         {/* Sticky Tabs Section */}
@@ -359,5 +364,38 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666",
     marginTop: 4,
+  },
+  badgesCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 20,
+    marginHorizontal: 20,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  badgesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  badge: {
+    backgroundColor: "#f0f9f0",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#4CAF50",
+  },
+  badgeText: {
+    color: "#4CAF50",
+    fontSize: 12,
+    fontWeight: "500",
   },
 });
