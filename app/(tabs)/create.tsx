@@ -6,6 +6,8 @@ import {
   Image,
   ScrollView,
   View,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Text } from "@/components/Themed";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,6 +16,7 @@ import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 import { Dimensions } from "react-native";
 import Modal from "react-native-modal";
+import { uploadToCloudinary } from "@/services/imageUpload";
 
 type LocationData = {
   address: string;
@@ -35,19 +38,71 @@ export default function CreateIssueScreen() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(-1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: "images",
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      allowsMultipleSelection: true,
-      selectionLimit: 10,
-    });
+    try {
+      // Request permissions
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (!result.canceled) {
-      setImages(result.assets.map((asset) => asset.uri));
+      if (permissionResult.granted === false) {
+        Alert.alert(
+          "Permission Required",
+          "Please allow access to your photo library"
+        );
+        return;
+      }
+
+      // Launch image picker
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        allowsMultipleSelection: true,
+        selectionLimit: 10,
+      });
+
+      if (!result.canceled) {
+        setIsLoading(true);
+        setUploadProgress(new Array(result.assets.length).fill(0));
+
+        // Upload images one by one
+        const uploadedUrls = await Promise.all(
+          result.assets.map(async (asset, index) => {
+            try {
+              const response = await uploadToCloudinary(
+                asset.uri,
+                (progress: number) => {
+                  setUploadProgress((prev) => {
+                    const newProgress = [...prev];
+                    newProgress[index] = progress;
+                    return newProgress;
+                  });
+                }
+              );
+              return response.secure_url;
+            } catch (error) {
+              console.error(`Error uploading image ${index + 1}:`, error);
+              return null;
+            }
+          })
+        );
+
+        // Filter out failed uploads and update state
+        const successfulUploads = uploadedUrls.filter(
+          (url): url is string => url !== null
+        );
+        setImages((prev) => [...prev, ...successfulUploads]);
+      }
+    } catch (error) {
+      console.error("Error picking/uploading images:", error);
+      Alert.alert("Error", "Failed to upload images. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setUploadProgress([]);
     }
   };
 
