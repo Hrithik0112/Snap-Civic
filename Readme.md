@@ -5,6 +5,11 @@
   <h3>Empowering Communities Through Civic Engagement</h3>
 </div>
 
+## Demo Video
+https://github.com/user-attachments/assets/2c0094dc-54c7-456e-ad2a-941945a865e8
+
+
+
 ## Backend
 
 https://github.com/olifarhaan/snap-civic
