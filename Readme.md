@@ -5,6 +5,23 @@
   <h3>Empowering Communities Through Civic Engagement</h3>
 </div>
 
+## 📲 Download SnapCivic
+
+[![Download APK](https://img.shields.io/badge/Download%20APK-SnapCivic-blue.svg?style=for-the-badge&logo=android)](https://your-download-link.com)
+
+Get the latest version of **SnapCivic** on your Android device:  
+👉 [Click here to download SnapCivic APK](https://drive.google.com/file/d/1kwS_xSfYi-ZfWXS2QM7oAiA6lNPN4IQK/view?usp=sharing)
+
+---
+
+🔒 **Safe & Secure**  
+SnapCivic is built with trusted open-source technologies like **React Native** and **Expo**, and contains **no malware, tracking, or hidden code**.
+
+🛠️ **Open Source & Transparent**  
+This app is fully open-source and community-driven. Feel free to explore the codebase and contribute!  
+🔗 [View Source on GitHub](https://github.com/Hrithik0112/Snap-Civic)
+
+
 ## Demo Video
 https://github.com/user-attachments/assets/2c0094dc-54c7-456e-ad2a-941945a865e8
 
